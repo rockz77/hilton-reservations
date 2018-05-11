@@ -1,0 +1,43 @@
+body {
+  font-size: 0.9rem;
+}
+
+button {
+  cursor: pointer;
+}
+
+#room-reservation-form {
+  margin: 40px;
+}
+
+.room-info-header {
+  background-color: #eee;
+  padding: 6px;
+}
+
+.room-info-header label {
+  margin: 0 0 0 6px;
+}
+
+.room-info-menu-section span {
+  display: block;
+  width: 42px;
+  margin-bottom: 4px;
+}
+
+#room1-wrapper input[type='checkbox'] {
+  display: none;
+}
+
+.disabled {
+  background-color: #ddd;
+  border-color: #ccc;
+}
+
+.disabled .room-info-header {
+  background-color: #ddd;
+}
+
+select:disabled {
+   opacity: 0.6;
+}
