@@ -25,6 +25,9 @@ If I had more time and requirements for the application, I would of used the fol
 - Docker for the deployment container
 
 
+By,
+Chris Kennedy
+chris7700@gmail.com
 
 
 
