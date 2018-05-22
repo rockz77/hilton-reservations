@@ -1,92 +1,55 @@
-import React from "react";
+import React, { Component } from "react";
 import styled from 'styled-components';
+import Context from '../context/Context';
+import ContextProviderRoomInfo from '../providers/ContextProviderRoomInfo';
 import "../../css/reservations.css";
 
 // Components
 import RoomPicker from "../components/RoomPicker";
 
-// Room Data
-const roomInfoArr = [
-  {
-    roomName: "room1",
-    roomNumber: 1,
-    adultsMenu: "room1AdultSelect",
-    childrenMenu: "room1ChildrenSelect"
-  },
-  {
-    roomName: "room2",
-    roomNumber: 2,
-    adultsMenu: "room2AdultSelect",
-    childrenMenu: "room2ChildrenSelect"
-  },
-  {
-    roomName: "room3",
-    roomNumber: 3,
-    adultsMenu: "room3AdultSelect",
-    childrenMenu: "room3ChildrenSelect"
-  },
-  {
-    roomName: "room4",
-    roomNumber: 4,
-    adultsMenu: "room4AdultSelect",
-    childrenMenu: "room4ChildrenSelect"
-  }
-];
-
-export default class Reservations extends React.Component {
-  // Get room info from array. Render room names and checkboxes.
+class Reservations extends Component {
+  // Context.Consumer. Get room info from array. Render room names and checkboxes.
   getRoomInfo() {
-    return roomInfoArr.map(roomInfo => {
-        return( <RoomPicker roomname={ roomInfo.roomName } roomnumber={ roomInfo.roomNumber } adultsmenu={ roomInfo.adultsMenu } childrenmenu={ roomInfo.childrenMenu }/> );
-    });
+    return (<Context.Consumer>
+      { context => { return(context.roomDetails.map(roomInfo => <div key={ roomInfo.roomNumber }><RoomPicker roomname={ roomInfo.roomName } roomnumber={ roomInfo.roomNumber } adultsmenu={ roomInfo.adultsMenu } childrenmenu={ roomInfo.childrenMenu }/></div>)) } }
+    </Context.Consumer>)
   }
 
   // Get all values selected in the form. Set values to sessionStorage objects (3).
-  getRoomForm() {
-    let selectedRooms = [];
-    let selectedAdults = [];
-    let selectedChildren = [];
-    const roomCheckboxes = document.querySelectorAll('.room-checkbox');
-    const adultsMenu = document.querySelectorAll('.adult-menu');
-    const childrenMenu = document.querySelectorAll('.children-menu');
+  getRoomForm(e) {
+    e.preventDefault();
+    const formElements = {
+      roomCheckboxes: [].slice.call(document.querySelectorAll('.room-checkbox')),
+      adultsMenu: [].slice.call(document.querySelectorAll('.adult-menu')),
+      childrenMenu: [].slice.call(document.querySelectorAll('.children-menu')),
+      defaultAdultMenu: document.querySelector('#room1AdultSelect'),
+      defaultChildrenMenu: document.querySelector('#room1ChildrenSelect')
+    }
+
+    let selectedRooms = formElements.roomCheckboxes.map(room => { if(room.checked){ return room.value } });
+    let selectedAdults = formElements.adultsMenu.map(adult => { if(!adult.disabled){ return adult.value } });
+    let selectedChildren = formElements.childrenMenu.map(child => { if(!child.disabled){ return child.value } });
 
     // Default selection of room 1
-    selectedRooms.push('room1');
-    const defaultAdultMenu = document.getElementById('room1AdultSelect');
-    const defaultChildrenMenu = document.getElementById('room1ChildrenSelect');
-    selectedAdults.push(defaultAdultMenu.value);
-    selectedChildren.push(defaultChildrenMenu.value);
-
-    for( var i=0; i<roomCheckboxes.length; i++ ) {
-      if (roomCheckboxes[i].checked) {
-        selectedRooms.push(roomCheckboxes[i].value);
-      }
-    }
-
-    for( var i=1; i<adultsMenu.length; i++ ) {
-      if (!adultsMenu[i].disabled) {
-        selectedAdults.push(adultsMenu[i].value);
-      }
-    }
-
-    for( var i=1; i<childrenMenu.length; i++ ) {
-      if (!childrenMenu[i].disabled) {
-        selectedChildren.push(childrenMenu[i].value);
-      }
-    }
+    selectedRooms.unshift('room1');
+    selectedAdults.unshift(formElements.defaultAdultMenu.value);
+    selectedChildren.unshift(formElements.defaultChildrenMenu.value);
 
     sessionStorage.setItem('roomReservationSelectedRooms',selectedRooms);
     sessionStorage.setItem('roomReservationSelectedAdults',selectedAdults);
     sessionStorage.setItem('roomReservationSelectedChildren',selectedChildren);
   }
 
+  // Includes Context.Provider
   render() {
     // Styled components
     const RoomReservationForm = styled.form.attrs({
       id: 'room-reservation-form',
       name: 'roomReservationForm'
     })``;
-    const SubmitButton = styled.button`
+    const SubmitButton = styled.button.attrs({
+      id: 'reservation-submit-btn'
+    })`
       float: left;
       clear: both;
       margin: 12px 6px;
@@ -95,10 +58,12 @@ export default class Reservations extends React.Component {
     return (
       <div>
         <RoomReservationForm>
-          { this.getRoomInfo() }
+          <ContextProviderRoomInfo>{ this.getRoomInfo() }</ContextProviderRoomInfo>
           <SubmitButton onClick={ this.getRoomForm }>Submit</SubmitButton>
         </RoomReservationForm>
       </div>
     );
   }
 }
+
+export default Reservations;

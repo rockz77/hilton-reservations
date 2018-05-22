@@ -1,0 +1,26 @@
+[
+    {
+      "roomName": "room1",
+      "roomNumber": 1,
+      "adultsMenu": "room1AdultSelect",
+      "childrenMenu": "room1ChildrenSelect"
+    },
+    {
+      "roomName": "room2",
+      "roomNumber": 2,
+      "adultsMenu": "room2AdultSelect",
+      "childrenMenu": "room2ChildrenSelect"
+    },
+    {
+      "roomName": "room3",
+      "roomNumber": 3,
+      "adultsMenu": "room3AdultSelect",
+      "childrenMenu": "room3ChildrenSelect"
+    },
+    {
+      "roomName": "room4",
+      "roomNumber": 4,
+      "adultsMenu": "room4AdultSelect",
+      "childrenMenu": "room4ChildrenSelect"
+    }
+]

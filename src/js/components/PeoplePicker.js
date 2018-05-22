@@ -1,22 +1,26 @@
-import React from "react";
+import React, { Component } from "react";
 import styled from 'styled-components';
+import Context from '../context/Context';
+import ContextProviderAdultInfo from '../providers/ContextProviderAdultInfo';
+import ContextProviderChildrenInfo from '../providers/ContextProviderChildrenInfo';
 
-const adultsNumArr = [1,2];
-const childrenNumArr = [0,1,2];
-
-export default class RoomPicker extends React.Component {
-  // Get number of adults in room for dropdown
+class PeoplePicker extends Component {
+  // Context.Consumer. Get number of adults in room for dropdown
   getAdultsNum() {
-    return adultsNumArr.map(adultsNum => {
-        return( <option value={ "adults-" + adultsNum }>{ adultsNum }</option> );
-    });
+    return (<Context.Consumer>
+      { context => { return(context.adultDetails.map(adultsNum => {
+          return( <option key={ adultsNum } value={ "adults-" + adultsNum }>{ adultsNum }</option> );
+      }))}}
+    </Context.Consumer>)
   }
 
-  // Get number of children in room for dropdown
+  // Context.Consumer. Get number of children in room for dropdown
   getChildrenNum() {
-    return childrenNumArr.map(childrenNum => {
-        return( <option value={ "children-" + childrenNum }>{ childrenNum }</option> );
-    });
+    return (<Context.Consumer>
+      { context => { return(context.childrenDetails.map(childrenNum => {
+          return( <option key={ childrenNum } value={ "children-" + childrenNum }>{ childrenNum }</option> );
+      }))}}
+    </Context.Consumer>)
   }
 
   render() {
@@ -49,13 +53,23 @@ export default class RoomPicker extends React.Component {
       <RoomInfoMenus>
         <RoomInfoMenuSection>
           <span>Adults (18+)</span>
-          <AdultSelect>{ this.getAdultsNum() }</AdultSelect>
+          <AdultSelect>
+            <ContextProviderAdultInfo>
+              { this.getAdultsNum() }
+            </ContextProviderAdultInfo>
+          </AdultSelect>
         </RoomInfoMenuSection>
         <RoomInfoMenuSection>
           <span>Children (0-17)</span>
-          <ChildrenSelect>{ this.getChildrenNum() }</ChildrenSelect>
+          <ChildrenSelect>
+            <ContextProviderChildrenInfo>
+              { this.getChildrenNum() }
+            </ContextProviderChildrenInfo>
+          </ChildrenSelect>
         </RoomInfoMenuSection>
       </RoomInfoMenus>
     );
   }
 }
+
+export default PeoplePicker;

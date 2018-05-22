@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import styled from 'styled-components';
 
 // Components
@@ -7,7 +7,7 @@ import PeoplePicker from "../components/PeoplePicker";
 var selectedElement: null;
 var roomNumber = null;
 
-export default class RoomPicker extends React.Component {
+class RoomPicker extends Component {
   constructor(props){
       super(props);
       this.state = {
@@ -20,12 +20,10 @@ export default class RoomPicker extends React.Component {
   componentDidMount() {
     const defaultRoom = document.getElementById('room1-wrapper');
     if (defaultRoom) {
-      const defaultSelectMenusArr = defaultRoom.querySelectorAll('select.select-menu');
+      const defaultSelectMenusArr = [].slice.call(defaultRoom.querySelectorAll('select.select-menu'));
       defaultRoom.classList.remove('disabled');
       defaultRoom.querySelector('label').style.fontWeight = 'bold';
-      for(var i=0; i<defaultSelectMenusArr.length; i++) {
-          defaultSelectMenusArr[i].removeAttribute('disabled');
-      }
+      defaultSelectMenusArr.map(item => item.removeAttribute('disabled'));
     }
   }
 
@@ -35,27 +33,22 @@ export default class RoomPicker extends React.Component {
       for (var j=roomNumber.roomnumber; j>1; j--) {
         let selectedWrapperId = `room${j}-wrapper`;
         let selectedId = document.getElementById(selectedWrapperId);
-        let selectMenusArr = selectedId.querySelectorAll('select.select-menu');
+        let selectMenusArr = [].slice.call(selectedId.querySelectorAll('select.select-menu'));
         selectedId.querySelector('.room-checkbox').checked = true;
         selectedId.classList.remove('disabled');
         selectedId.querySelector('label').style.fontWeight = 'bold';
-        for(var i=0; i<selectMenusArr.length; i++) {
-            selectMenusArr[i].removeAttribute('disabled');
-        }
+        selectMenusArr.map(item => item.removeAttribute('disabled'));
       }
     } else {
       const roomWrapper = document.querySelectorAll('.room-info-wrapper');
       for (var j=roomNumber.roomnumber; j<roomWrapper.length+1; j++) {
         let selectedWrapperId = `room${j}-wrapper`;
         let selectedId = document.getElementById(selectedWrapperId);
-        let selectMenusArr = selectedId.querySelectorAll('select.select-menu');
+        let selectMenusArrOther = [].slice.call(selectedId.querySelectorAll('select.select-menu'));
         selectedId.querySelector('.room-checkbox').checked = false;
         selectedId.classList.add('disabled');
         selectedId.querySelector('label').style.fontWeight = 'normal';
-        for(var i=0; i<selectMenusArr.length; i++) {
-            selectMenusArr[i].setAttribute('disabled','disabled');
-            selectMenusArr[i].selectedIndex = null;
-        }
+        selectMenusArrOther.map(item => {item.setAttribute('disabled','disabled'), item.selectedIndex = null});
       }
     }
   }
@@ -63,13 +56,8 @@ export default class RoomPicker extends React.Component {
   // Set component state when user selects a room(s).
   handleSelected(e) {
     const isChecked = e.target.checked;
-    const inputValue = e.target.value;
-    this.selectedElement = e.target;
-    if (isChecked == true) {
-      this.setState({ selected: true });
-    } else {
-      this.setState({ selected: false });
-    }
+    const confirmCheck = (isChecked == true) ? this.setState({ selected: true }) : this.setState({ selected: false });
+    return confirmCheck;
     this.componentDidUpdate();
   }
 
@@ -104,7 +92,7 @@ export default class RoomPicker extends React.Component {
       value: roomname
     })``;
     const RoomCheckboxLabel = styled.label.attrs({
-      for: roomname
+      htmlFor: roomname
     })``;
 
     roomNumber = { roomnumber };
@@ -121,3 +109,5 @@ export default class RoomPicker extends React.Component {
 
   }
 }
+
+export default RoomPicker;
