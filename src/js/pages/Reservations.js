@@ -7,6 +7,10 @@ import "../../css/reservations.css";
 // Components
 import RoomPicker from "../components/RoomPicker";
 
+// Styled components
+import RoomReservationForm from '../partials/RoomReservationForm';
+import SubmitButton from '../partials/SubmitButton';
+
 class Reservations extends Component {
   // Context.Consumer. Get room info from array. Render room names and checkboxes.
   getRoomInfo() {
@@ -42,19 +46,6 @@ class Reservations extends Component {
 
   // Includes Context.Provider
   render() {
-    // Styled components
-    const RoomReservationForm = styled.form.attrs({
-      id: 'room-reservation-form',
-      name: 'roomReservationForm'
-    })``;
-    const SubmitButton = styled.button.attrs({
-      id: 'reservation-submit-btn'
-    })`
-      float: left;
-      clear: both;
-      margin: 12px 6px;
-    `;
-
     return (
       <div>
         <RoomReservationForm>

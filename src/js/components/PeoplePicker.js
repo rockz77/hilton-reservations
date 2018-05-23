@@ -4,6 +4,12 @@ import Context from '../context/Context';
 import ContextProviderAdultInfo from '../providers/ContextProviderAdultInfo';
 import ContextProviderChildrenInfo from '../providers/ContextProviderChildrenInfo';
 
+// Styled components
+import RoomInfoMenus from '../partials/RoomInfoMenus';
+import RoomInfoMenuSection from '../partials/RoomInfoMenuSection';
+import AdultSelect from '../partials/AdultSelect';
+import ChildrenSelect from '../partials/ChildrenSelect';
+
 class PeoplePicker extends Component {
   // Context.Consumer. Get number of adults in room for dropdown
   getAdultsNum() {
@@ -26,34 +32,11 @@ class PeoplePicker extends Component {
   render() {
     const { adultsMenu, childrenMenu } = this.props;
 
-    // Styled components
-    const RoomInfoMenus = styled.div.attrs({
-      className: 'room-info-menus'
-    })``;
-    const RoomInfoMenuSection = styled.div.attrs({
-      className: 'room-info-menu-section'
-    })`
-      float: left;
-      margin: 10px 10px 10px 8px;
-    `;
-    const AdultSelect = styled.select.attrs({
-      name: 'adultsMenu',
-      className: 'select-menu adult-menu',
-      disabled: 'disabled',
-      id: adultsMenu
-    })``;
-    const ChildrenSelect = styled.select.attrs({
-      name: 'childrenMenu',
-      className: 'select-menu children-menu',
-      disabled: 'disabled',
-      id: childrenMenu
-    })``;
-
     return (
       <RoomInfoMenus>
         <RoomInfoMenuSection>
           <span>Adults (18+)</span>
-          <AdultSelect>
+          <AdultSelect id={ adultsMenu }>
             <ContextProviderAdultInfo>
               { this.getAdultsNum() }
             </ContextProviderAdultInfo>
@@ -61,7 +44,7 @@ class PeoplePicker extends Component {
         </RoomInfoMenuSection>
         <RoomInfoMenuSection>
           <span>Children (0-17)</span>
-          <ChildrenSelect>
+          <ChildrenSelect id={ childrenMenu }>
             <ContextProviderChildrenInfo>
               { this.getChildrenNum() }
             </ContextProviderChildrenInfo>

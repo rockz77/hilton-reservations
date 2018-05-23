@@ -30,6 +30,10 @@ I provided functionality that grabs all selected data values and put into 3 diff
 - roomReservationSelectedAdults
 - roomReservationSelectedChildren
 
+## Styled Components
+
+All styled-components are exported within their own partial file in the directory "partials".
+
 Given the time frame, I would of mapped together the values of each sets of data/arrays, and streamline all into an accessible JSON object for future use of pre-populating the form fields. Can use techniques such as the map() method and ES6 spread operator `...`.
 
 Ultimately, after the data is sent to the API/database, I would of used a sessionsStorage object or cookie to store the data on the frontend to persist and pre-populate.
