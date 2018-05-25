@@ -40,7 +40,7 @@ Ultimately, after the data is sent to the API/database, I would of used a sessio
 
 ## Future recommendations
 
-If I had more time and requirements for the application, I would of used the following:
+Will add in the future:
 
 - GraphQL for the API
 - Apollo for the graphQL binding of the UI to the backend
@@ -53,4 +53,3 @@ If I had more time and requirements for the application, I would of used the fol
 
 By,
 Chris Kennedy
-chris7700@gmail.com
