@@ -1,4 +1,4 @@
-# hilton-reservations
+# hotel-reservations
 Web page application that contains room reservation functionality. User can select from four rooms, and select a certain number of adults and children per room. Technologies used are: node.js, react, styled-components, webpack, babel, ES6 javascript, CSS3, and HTML5.
 
 ## Run app
